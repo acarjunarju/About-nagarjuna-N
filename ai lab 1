@@ -1,0 +1,147 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyPNqlTOe/jZIGsKJ1UBH4ds",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/acarjunarju/About-nagarjuna-N/blob/main/ai%20lab%201\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "class State:\n",
+        "    def __init__(self, x, y, parent=None):\n",
+        "        self.x = x\n",
+        "        self.y = y\n",
+        "        self.parent = parent\n",
+        "\n",
+        "    def __repr__(self):\n",
+        "        return f\"({self.x}, {self.y})\"\n",
+        "\n",
+        "    def __eq__(self, other):\n",
+        "        return self.x == other.x and self.y == other.y\n",
+        "\n",
+        "    def __hash__(self):\n",
+        "        return hash((self.x, self.y))\n",
+        "\n",
+        "\n",
+        "def dfs(capA, capB, target):\n",
+        "\n",
+        "    stack = []\n",
+        "    visited = set()\n",
+        "\n",
+        "\n",
+        "    initial_state = State(0, 0)\n",
+        "    stack.append(initial_state)\n",
+        "\n",
+        "    while stack:\n",
+        "        current = stack.pop()\n",
+        "\n",
+        "        if current in visited:\n",
+        "            continue\n",
+        "\n",
+        "        visited.add(current)\n",
+        "\n",
+        "\n",
+        "        if current.x == target or current.y == target:\n",
+        "            return current\n",
+        "\n",
+        "        x = current.x\n",
+        "        y = current.y\n",
+        "\n",
+        "\n",
+        "\n",
+        "        stack.append(State(capA, y, current))\n",
+        "        stack.append(State(x, capB, current))\n",
+        "        stack.append(State(0, y, current))\n",
+        "\n",
+        "\n",
+        "        stack.append(State(x, 0, current))\n",
+        "\n",
+        "\n",
+        "        pour = min(x, capB - y)\n",
+        "        stack.append(State(x - pour, y + pour, current))\n",
+        "\n",
+        "\n",
+        "        pour = min(y, capA - x)\n",
+        "        stack.append(State(x + pour, y - pour, current))\n",
+        "\n",
+        "    return None\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "capA = int(input(\"Enter capacity of Jug A: \"))\n",
+        "capB = int(input(\"Enter capacity of Jug B: \"))\n",
+        "target = int(input(\"Enter target amount: \"))\n",
+        "\n",
+        "goal = dfs(capA, capB, target)\n",
+        "if goal:\n",
+        "    path = []\n",
+        "    while goal:\n",
+        "        path.append(goal)\n",
+        "        goal = goal.parent\n",
+        "\n",
+        "    path.reverse()\n",
+        "\n",
+        "    print(\"\\nSolution Path:\")\n",
+        "    for state in path:\n",
+        "        print(state)\n",
+        "else:\n",
+        "    print(\"\\nNo solution possible.\")"
+      ],
+      "metadata": {
+        "id": "WATq6_cA1IvY",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "43bc9d6b-24d9-4bcd-f1ad-281157d62628"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Enter capacity of Jug A: 5\n",
+            "Enter capacity of Jug B: 5\n",
+            "Enter target amount: 5\n",
+            "\n",
+            "Solution Path:\n",
+            "(0, 0)\n",
+            "(0, 5)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "xCqTWh67GnAD"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
